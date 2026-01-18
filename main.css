@@ -1,0 +1,65 @@
+* {
+  font-family: "Courier Prime", monospace;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* NAVIGATION BAR*/
+header {
+  padding: 1.5vw;
+  background-color: white;
+  position: sticky;
+  z-index: 600;
+}
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 0 2vw;
+}
+
+a {
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+  transition: 0.3s ease;
+}
+
+a:hover {
+  color: #c47e00;
+}
+
+i {
+  font-size: 20px;
+}
+
+.logo {
+  width: 10vw;
+  max-width: 100%;
+  min-width: 7rem;
+  max-height: 100%;
+  object-fit: contain;
+  transition: 0.6s ease;
+}
+.logo:hover {
+  content: url(media/logo2.png);
+}
