@@ -82,14 +82,32 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1vw;
 }
 
 h1 {
-  font-size: 30px;
-  margin: 15px;
+  font-size: 25px;
+  font-weight: 500;
 }
 
 #skills {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.skill-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 3vw;
+  width: 5vw;
+}
+.skill-window img {
+  width: 5vw;
+  object-fit: contain;
+}
+.skill-window p {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 10px;
 }
