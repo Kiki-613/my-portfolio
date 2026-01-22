@@ -7,7 +7,7 @@ if (window.innerWidth < 500) gutterSize = 10;
 
 function initMasonry() {
   if (msnry) {
-    msnry.destroy(); // 🔥 prevent duplicate instances
+    msnry.destroy(); //  prevent duplicate instances
   }
 
   msnry = new Masonry(grid, {
