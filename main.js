@@ -1,6 +1,10 @@
 var grid = document.querySelector(".grid");
 var msnry = null;
 
+let gutterSize = 20;
+if (window.innerWidth < 900) gutterSize = 15;
+if (window.innerWidth < 500) gutterSize = 10;
+
 function initMasonry() {
   if (msnry) {
     msnry.destroy(); // 🔥 prevent duplicate instances

@@ -116,7 +116,7 @@ h1 {
 .portfolio-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px; /* breathing room on small screens */
+  padding: 0;
 }
 
 .grid {
@@ -131,8 +131,8 @@ h1 {
 /* Column width controller */
 .grid-sizer,
 .grid-item {
-  width: 25%; /* desktop: 4 columns */
-  margin-bottom: 3%;
+  max-width: 300px; /* desktop: 4 columns */
+  margin-bottom: 20px;
 }
 
 .grid-item img {
@@ -144,20 +144,20 @@ h1 {
 @media (max-width: 1200px) {
   .grid-sizer,
   .grid-item {
-    width: 33.333%; /* 3 columns */
+    width: 400px; /* 3 columns */
   }
 }
 
 @media (max-width: 900px) {
   .grid-sizer,
   .grid-item {
-    width: 50%; /* 2 columns */
+    width: 450px; /* 2 columns */
   }
 }
 
 @media (max-width: 500px) {
   .grid-sizer,
   .grid-item {
-    width: 100%; /* 1 column */
+    width: 500px; /* 1 column */
   }
 }
