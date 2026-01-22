@@ -1,6 +1,20 @@
 var grid = document.querySelector(".grid");
 var msnry = null;
 
+const revealObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target); // animate only once
+      }
+    });
+  },
+  {
+    threshold: 0.15, // 15% visible before triggering
+  },
+);
+
 let gutterSize = 20;
 if (window.innerWidth < 900) gutterSize = 15;
 if (window.innerWidth < 500) gutterSize = 10;
@@ -24,7 +38,14 @@ function initMasonry() {
 /* Wait for ALL images, not just initial load */
 imagesLoaded(grid, { background: true }, function () {
   initMasonry();
+  observeAllItems();
 });
+
+function observeAllItems() {
+  document.querySelectorAll(".grid-item").forEach((item) => {
+    revealObserver.observe(item);
+  });
+}
 
 /* Relayout as images change size */
 imagesLoaded(grid).on("progress", function () {
@@ -33,9 +54,11 @@ imagesLoaded(grid).on("progress", function () {
 
 imagesLoaded(grid).on("progress", function (instance, image) {
   const item = image.img.closest(".grid-item");
+
   if (item) {
-    item.classList.add("is-loaded");
+    revealObserver.observe(item);
   }
+
   if (msnry) msnry.layout();
 });
 

@@ -135,9 +135,11 @@ h1 {
   margin-bottom: 20px;
 }
 
-.grid-item img {
+.grid-item img,
+.grid-item video {
   width: 100%;
   display: block;
+  cursor: pointer;
 }
 
 /* Responsive breakpoints */
@@ -169,7 +171,7 @@ h1 {
   overflow: hidden;
 
   border: 5px solid #c47e00; /* example color – change as needed */
-  border-radius: 20%;
+  border-radius: 76px;
 
   /* Load animation start state */
   opacity: 0;
@@ -181,13 +183,14 @@ h1 {
 }
 
 /* Loaded state */
-.grid-item.is-loaded {
+.grid-item.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* ===== IMAGE STYLING ===== */
-.grid-item img {
+.grid-item img,
+.grid-item video {
   width: 100%;
   display: block;
 
@@ -196,7 +199,8 @@ h1 {
 }
 
 /* Hover: restore color */
-.grid-item:hover img {
+.grid-item:hover img,
+.grid-item:hover video {
   filter: grayscale(0%);
 }
 
