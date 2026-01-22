@@ -1,0 +1,27 @@
+[
+  {
+    "type": "image",
+    "src": "media/book.png",
+    "description": "Book cover"
+  },
+  {
+    "type": "image",
+    "src": "media/vatternlogo.png",
+    "description": "Book cover"
+  },
+  {
+    "type": "image",
+    "src": "media/book.png",
+    "description": "Book cover"
+  },
+  {
+    "type": "image",
+    "src": "media/book.png",
+    "description": "Book cover"
+  },
+  {
+    "type": "image",
+    "src": "media/book.png",
+    "description": "Book cover"
+  }
+]

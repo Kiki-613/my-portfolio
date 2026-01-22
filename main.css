@@ -13,8 +13,6 @@ body {
 header {
   padding: 1.5vw;
   background-color: white;
-  position: sticky;
-  z-index: 600;
 }
 
 .nav-container {
@@ -25,7 +23,7 @@ header {
 
 ul {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   list-style: none;
   padding: 0;
@@ -33,7 +31,7 @@ ul {
 }
 
 li {
-  padding: 0 2vw;
+  margin-bottom: 0.5vw;
 }
 
 a {
@@ -49,11 +47,12 @@ a:hover {
 }
 
 .logo {
-  width: 10vw;
+  width: 12vw;
   max-width: 100%;
   min-width: 7rem;
   max-height: 100%;
   object-fit: contain;
+  padding: 0.5vw;
   transition: 0.3s ease;
 }
 .logo:hover {
@@ -66,6 +65,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0;
 }
 h2 {
   color: #c47e00;
@@ -82,7 +82,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1vw;
+  padding: 1.5vw;
 }
 
 h1 {
@@ -110,4 +110,54 @@ h1 {
   text-align: center;
   font-size: 15px;
   margin-top: 10px;
+}
+
+/*Portfolio section*/
+.portfolio-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px; /* breathing room on small screens */
+}
+
+.grid {
+  margin: 0 auto;
+}
+
+.grid,
+.grid-item {
+  box-sizing: border-box;
+}
+
+/* Column width controller */
+.grid-sizer,
+.grid-item {
+  width: 25%; /* desktop: 4 columns */
+  margin-bottom: 3%;
+}
+
+.grid-item img {
+  width: 100%;
+  display: block;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .grid-sizer,
+  .grid-item {
+    width: 33.333%; /* 3 columns */
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-sizer,
+  .grid-item {
+    width: 50%; /* 2 columns */
+  }
+}
+
+@media (max-width: 500px) {
+  .grid-sizer,
+  .grid-item {
+    width: 100%; /* 1 column */
+  }
 }
