@@ -14,7 +14,6 @@ function initMasonry() {
     itemSelector: ".grid-item",
     columnWidth: ".grid-sizer",
     gutter: 20,
-    percentPosition: true,
     fitWidth: true,
     transitionDuration: 0.2,
   });
@@ -29,6 +28,14 @@ imagesLoaded(grid, { background: true }, function () {
 
 /* Relayout as images change size */
 imagesLoaded(grid).on("progress", function () {
+  if (msnry) msnry.layout();
+});
+
+imagesLoaded(grid).on("progress", function (instance, image) {
+  const item = image.img.closest(".grid-item");
+  if (item) {
+    item.classList.add("is-loaded");
+  }
   if (msnry) msnry.layout();
 });
 

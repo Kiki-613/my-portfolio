@@ -161,3 +161,70 @@ h1 {
     width: 500px; /* 1 column */
   }
 }
+
+/*EXPERIMENT*/
+/* ===== GRID ITEM BASE ===== */
+.grid-item {
+  position: relative;
+  overflow: hidden;
+
+  border: 5px solid #c47e00; /* example color – change as needed */
+  border-radius: 20%;
+
+  /* Load animation start state */
+  opacity: 0;
+  transform: translateY(30px);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+/* Loaded state */
+.grid-item.is-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== IMAGE STYLING ===== */
+.grid-item img {
+  width: 100%;
+  display: block;
+
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+
+/* Hover: restore color */
+.grid-item:hover img {
+  filter: grayscale(0%);
+}
+
+/* ===== DESCRIPTION OVERLAY ===== */
+.grid-item .description {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 33%;
+
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+
+  color: white;
+  padding: 15px;
+  box-sizing: border-box;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+
+  pointer-events: none;
+}
+
+/* Hover reveal */
+.grid-item:hover .description {
+  opacity: 1;
+  transform: translateY(0);
+}
