@@ -155,12 +155,22 @@ h1 {
   .grid-item {
     width: 450px; /* 2 columns */
   }
+
+  .skill-window {
+    padding: 0 6vw;
+  }
+  .skill-window p {
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 500px) {
   .grid-sizer,
   .grid-item {
     width: 500px; /* 1 column */
+  }
+  #skills {
+    flex-direction: column;
   }
 }
 
