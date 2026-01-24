@@ -177,6 +177,9 @@ h1 {
   #bio {
     flex-direction: column;
   }
+  .nav-container li {
+    margin-bottom: 30px;
+  }
 }
 
 /*EXPERIMENT*/
