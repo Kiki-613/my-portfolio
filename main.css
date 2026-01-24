@@ -307,19 +307,17 @@ h4 {
 /*CONTACT SECTION*/
 
 .contact-section {
-  max-width: 100vw;
-  display: flex;
-  justify-content: center;
-  gap: 24px; /* space between squares */
-  padding: 40px;
-  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 50px;
 }
 
 .contact-section > div {
   background: #fff;
-  border: 5px solid #000;
+  border: 3px solid #000;
   border-radius: 76px;
-  padding: 32px 40px;
+  padding: 80px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
