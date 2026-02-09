@@ -1,91 +1,95 @@
-var grid = document.querySelector(".grid");
-var msnry = null;
+const grid = document.querySelector(".grid");
+let msnry;
 
+/* ---------- REVEAL ANIMATION ---------- */
 const revealObserver = new IntersectionObserver(
   (entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
+
+        const video = entry.target.querySelector("video");
+        if (video) video.play().catch(() => {});
+
         observer.unobserve(entry.target);
       }
     });
   },
-  { threshold: 0.15 },
+  { threshold: 0.2 },
 );
 
-let gutterSize = 20;
-if (window.innerWidth < 900) gutterSize = 15;
-if (window.innerWidth < 500) gutterSize = 10;
-
+/* ---------- MASONRY INIT ---------- */
 function initMasonry() {
-  if (msnry) {
-    msnry.destroy();
-  }
-
   msnry = new Masonry(grid, {
     itemSelector: ".grid-item",
     columnWidth: ".grid-sizer",
-    gutter: gutterSize,
+    gutter: getGutter(),
     fitWidth: true,
     transitionDuration: "0.2s",
   });
-
-  msnry.layout();
 }
 
-/* Wait for ALL images AND videos */
-Promise.all([
-  new Promise((resolve) => imagesLoaded(grid, { background: true }, resolve)),
-  videosLoaded(grid),
-]).then(() => {
-  initMasonry();
-  observeAllItems();
+/* ---------- GUTTER BASED ON SCREEN ---------- */
+function getGutter() {
+  if (window.innerWidth < 500) return 10;
+  if (window.innerWidth < 900) return 15;
+  return 20;
+}
+
+/* ---------- OBSERVE ITEMS ---------- */
+document.querySelectorAll(".grid-item").forEach((item) => {
+  revealObserver.observe(item);
 });
 
-/* Observe items */
-function observeAllItems() {
-  document.querySelectorAll(".grid-item").forEach((item) => {
-    revealObserver.observe(item);
+/* ---------- MEDIA LOADING ---------- */
+function waitForMedia() {
+  const imagesPromise = new Promise((resolve) => {
+    imagesLoaded(grid, { background: true }, resolve);
   });
+
+  const videos = Array.from(grid.querySelectorAll("video"));
+  const videosPromise = Promise.all(
+    videos.map(
+      (video) =>
+        new Promise((resolve) => {
+          if (video.readyState >= 1) resolve();
+          else
+            video.addEventListener("loadedmetadata", resolve, { once: true });
+        }),
+    ),
+  );
+
+  return Promise.all([imagesPromise, videosPromise]);
 }
 
-/* Relayout as images load */
-imagesLoaded(grid).on("progress", function (instance, image) {
-  if (msnry) msnry.layout();
+/* ---------- RELAYOUT HELPER ---------- */
+let layoutTimeout;
+function relayout() {
+  clearTimeout(layoutTimeout);
+  layoutTimeout = setTimeout(() => {
+    if (msnry) msnry.layout();
+  }, 100);
+}
+
+/* ---------- START ---------- */
+initMasonry();
+
+waitForMedia().then(() => {
+  relayout();
 });
 
-/* Video loading helper */
-function videosLoaded(container) {
-  const videos = container.querySelectorAll("video");
-  if (!videos.length) return Promise.resolve();
+/* ---------- IMAGE PROGRESS RELAYOUT ---------- */
+imagesLoaded(grid).on("progress", relayout);
 
-  return Promise.all(
-    Array.from(videos).map((video) => {
-      return new Promise((resolve) => {
-        if (video.readyState >= 1) {
-          resolve();
-        } else {
-          video.addEventListener("loadedmetadata", resolve, { once: true });
-        }
-      });
-    }),
-  );
-}
-
-/* Relayout when videos change size */
+/* ---------- VIDEO EVENT RELAYOUT ---------- */
 grid.querySelectorAll("video").forEach((video) => {
   ["loadedmetadata", "loadeddata", "canplay"].forEach((event) => {
-    video.addEventListener(event, () => {
-      if (msnry) msnry.layout();
-    });
+    video.addEventListener(event, relayout);
   });
 });
 
-/* Resize handling */
-let resizeTimeout;
+/* ---------- WINDOW RESIZE ---------- */
 window.addEventListener("resize", () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    if (msnry) msnry.layout();
-  }, 200);
+  msnry.options.gutter = getGutter();
+  relayout();
 });
