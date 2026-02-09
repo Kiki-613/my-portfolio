@@ -6,13 +6,11 @@ const revealObserver = new IntersectionObserver(
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target); // animate only once
+        observer.unobserve(entry.target);
       }
     });
   },
-  {
-    threshold: 0.15, // 15% visible before triggering
-  },
+  { threshold: 0.15 },
 );
 
 let gutterSize = 20;
@@ -21,45 +19,66 @@ if (window.innerWidth < 500) gutterSize = 10;
 
 function initMasonry() {
   if (msnry) {
-    msnry.destroy(); //  prevent duplicate instances
+    msnry.destroy();
   }
 
   msnry = new Masonry(grid, {
     itemSelector: ".grid-item",
     columnWidth: ".grid-sizer",
-    gutter: 20,
+    gutter: gutterSize,
     fitWidth: true,
-    transitionDuration: 0.2,
+    transitionDuration: "0.2s",
   });
 
   msnry.layout();
 }
 
-/* Wait for ALL images, not just initial load */
-imagesLoaded(grid, { background: true }, function () {
+/* Wait for ALL images AND videos */
+Promise.all([
+  new Promise((resolve) => imagesLoaded(grid, { background: true }, resolve)),
+  videosLoaded(grid),
+]).then(() => {
   initMasonry();
   observeAllItems();
 });
 
+/* Observe items */
 function observeAllItems() {
   document.querySelectorAll(".grid-item").forEach((item) => {
     revealObserver.observe(item);
   });
 }
 
-/* Relayout as images change size */
-imagesLoaded(grid).on("progress", function () {
+/* Relayout as images load */
+imagesLoaded(grid).on("progress", function (instance, image) {
   if (msnry) msnry.layout();
 });
 
-imagesLoaded(grid).on("progress", function (instance, image) {
-  const item = image.img.closest(".grid-item");
+/* Video loading helper */
+function videosLoaded(container) {
+  const videos = container.querySelectorAll("video");
+  if (!videos.length) return Promise.resolve();
 
-  if (item) {
-    revealObserver.observe(item);
-  }
+  return Promise.all(
+    Array.from(videos).map((video) => {
+      return new Promise((resolve) => {
+        if (video.readyState >= 1) {
+          resolve();
+        } else {
+          video.addEventListener("loadedmetadata", resolve, { once: true });
+        }
+      });
+    }),
+  );
+}
 
-  if (msnry) msnry.layout();
+/* Relayout when videos change size */
+grid.querySelectorAll("video").forEach((video) => {
+  ["loadedmetadata", "loadeddata", "canplay"].forEach((event) => {
+    video.addEventListener(event, () => {
+      if (msnry) msnry.layout();
+    });
+  });
 });
 
 /* Resize handling */
